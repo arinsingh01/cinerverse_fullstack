@@ -1,0 +1,205 @@
+/* Custom properties / Design tokens */
+:root {
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-heading: 'Outfit', sans-serif;
+
+  /* Color Palette */
+  --bg-dark-base: #0b0c16;
+  --bg-dark-deep: #05060c;
+  --glass-bg: rgba(18, 20, 38, 0.55);
+  --glass-bg-hover: rgba(26, 29, 54, 0.7);
+  --glass-border: rgba(255, 255, 255, 0.07);
+  --glass-border-glow: rgba(124, 58, 237, 0.3);
+
+  --accent-cyan: #06b6d4;
+  --accent-cyan-glow: rgba(6, 182, 212, 0.3);
+  --accent-purple: #8b5cf6;
+  --accent-purple-glow: rgba(139, 92, 246, 0.4);
+  --accent-magenta: #ec4899;
+  --accent-magenta-glow: rgba(236, 72, 153, 0.4);
+  
+  --text-primary: #f3f4f6;
+  --text-secondary: #9ca3af;
+  --text-muted: #6b7280;
+  
+  --color-success: #10b981;
+  --color-success-glow: rgba(16, 185, 129, 0.3);
+  --color-warning: #f59e0b;
+  --color-error: #ef4444;
+
+  --transition-fast: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-normal: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-slow: 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Reset & Base Styles */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-sans);
+  background: radial-gradient(circle at 50% 0%, #1e1145 0%, var(--bg-dark-base) 70%);
+  background-color: var(--bg-dark-base);
+  color: var(--text-primary);
+  min-height: 100vh;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-dark-deep);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--accent-purple);
+}
+
+/* Core Layout */
+#root {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+/* Glassmorphism Panel Utility */
+.glass-panel {
+  background: var(--glass-bg);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--glass-border);
+  border-radius: 16px;
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
+  transition: var(--transition-normal);
+}
+
+.glass-panel:hover {
+  border-color: rgba(255, 255, 255, 0.12);
+  box-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.6);
+}
+
+.glass-panel-glow:hover {
+  border-color: var(--accent-purple-glow);
+  box-shadow: 0 0 25px var(--accent-purple-glow);
+}
+
+/* Typography */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: #fff;
+}
+
+h1 {
+  font-size: 2.5rem;
+  line-height: 1.2;
+}
+
+h2 {
+  font-size: 1.85rem;
+  line-height: 1.3;
+}
+
+/* Interactive Elements */
+a {
+  color: var(--accent-cyan);
+  text-decoration: none;
+  transition: var(--transition-fast);
+}
+
+a:hover {
+  color: #fff;
+  text-shadow: 0 0 8px var(--accent-cyan-glow);
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulseGlow {
+  0%, 100% {
+    box-shadow: 0 0 15px rgba(139, 92, 246, 0.2);
+  }
+  50% {
+    box-shadow: 0 0 25px rgba(139, 92, 246, 0.5);
+  }
+}
+
+.animate-fade-in {
+  animation: fadeIn var(--transition-normal) forwards;
+}
+
+/* Grid & Layout System Utilities */
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+/* Modern Form Fields */
+.form-group {
+  margin-bottom: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  text-align: left;
+}
+
+.form-label {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.form-input {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid var(--glass-border);
+  border-radius: 8px;
+  color: #fff;
+  font-family: inherit;
+  font-size: 1rem;
+  transition: var(--transition-fast);
+}
+
+.form-input:focus {
+  outline: none;
+  border-color: var(--accent-purple);
+  box-shadow: 0 0 10px var(--accent-purple-glow);
+  background: rgba(0, 0, 0, 0.5);
+}
+
+/* Ratings */
+.stars {
+  display: inline-flex;
+  gap: 0.25rem;
+  color: var(--color-warning);
+}

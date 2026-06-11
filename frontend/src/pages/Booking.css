@@ -1,0 +1,347 @@
+.booking-container {
+  margin-top: 1rem;
+}
+
+.booking-layout {
+  display: grid;
+  grid-template-columns: 1fr 350px;
+  gap: 2rem;
+}
+
+@media (max-width: 992px) {
+  .booking-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+.booking-seating-section {
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.seating-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 2.5rem;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.seating-legend {
+  display: flex;
+  gap: 1.25rem;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+}
+
+.legend-box {
+  width: 16px;
+  height: 16px;
+  border-radius: 4px;
+  display: inline-block;
+}
+
+.seat-available {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--glass-border);
+}
+
+.seat-selected {
+  background: var(--accent-cyan);
+  box-shadow: 0 0 10px var(--accent-cyan-glow);
+}
+
+.seat-occupied {
+  background: rgba(255, 255, 255, 0.15);
+  cursor: not-allowed;
+}
+
+/* Screen Line */
+.screen-projection {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 3.5rem;
+  color: var(--text-muted);
+}
+
+.screen-icon {
+  color: var(--glass-border);
+}
+
+.screen-glow-line {
+  width: 80%;
+  height: 4px;
+  background: linear-gradient(90deg, transparent 0%, var(--accent-cyan) 50%, transparent 100%);
+  margin: 0.5rem 0;
+  box-shadow: 0 4px 15px var(--accent-cyan-glow);
+  border-radius: 50%;
+}
+
+.screen-projection span {
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+}
+
+/* Seating Grid */
+.seating-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  width: 100%;
+  max-width: 620px;
+}
+
+.grid-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  gap: 1rem;
+}
+
+.row-letter {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: var(--text-muted);
+  width: 20px;
+  text-align: center;
+}
+
+.row-seats {
+  display: grid;
+  grid-template-columns: repeat(10, 1fr);
+  gap: 0.5rem;
+  flex: 1;
+  justify-content: center;
+}
+
+.seat-btn {
+  aspect-ratio: 1;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--glass-border);
+  color: var(--text-secondary);
+  font-size: 0.75rem;
+  font-weight: 600;
+  border-radius: 6px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all var(--transition-fast);
+}
+
+.seat-btn:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.15);
+  color: #fff;
+  border-color: rgba(255, 255, 255, 0.25);
+  transform: scale(1.08);
+}
+
+.seat-btn.selected {
+  background: var(--accent-cyan);
+  border-color: var(--accent-cyan);
+  color: #000;
+  font-weight: 700;
+  box-shadow: 0 0 12px var(--accent-cyan);
+  transform: scale(1.08);
+}
+
+.seat-btn.occupied {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: transparent;
+  color: var(--text-muted);
+  cursor: not-allowed;
+  opacity: 0.4;
+  text-decoration: line-through;
+}
+
+/* Checkout Panel */
+.booking-checkout-panel {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  height: fit-content;
+}
+
+.checkout-movie-banner {
+  height: 120px;
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  padding: 1.5rem;
+}
+
+.checkout-movie-banner::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(to bottom, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.8) 100%);
+  z-index: 1;
+}
+
+.banner-overlay {
+  position: relative;
+  z-index: 2;
+  text-align: left;
+}
+
+.banner-overlay h3 {
+  font-size: 1.25rem;
+  line-height: 1.2;
+}
+
+.banner-overlay p {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  margin-top: 0.25rem;
+}
+
+.checkout-details {
+  padding: 1.5rem;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.info-row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+}
+
+.divider {
+  border: none;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.selection-stats {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+
+.stats-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.85rem;
+}
+
+.stats-label {
+  color: var(--text-secondary);
+}
+
+.stats-value {
+  font-weight: 600;
+  color: #fff;
+}
+
+.total-calculation {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: var(--font-heading);
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #fff;
+  margin: 0.5rem 0;
+}
+
+.total-val {
+  color: var(--accent-cyan);
+  font-size: 1.45rem;
+  text-shadow: 0 0 10px var(--accent-cyan-glow);
+}
+
+.proceed-btn {
+  width: 100%;
+  gap: 0.5rem;
+}
+
+/* Success Card */
+.success-card {
+  max-width: 500px;
+  margin: 4rem auto;
+  padding: 4rem 3rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.25rem;
+}
+
+.success-icon-container {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: rgba(16, 185, 129, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(16, 185, 129, 0.25);
+  margin-bottom: 0.5rem;
+}
+
+.success-icon {
+  color: var(--color-success);
+  filter: drop-shadow(0 0 10px var(--color-success-glow));
+}
+
+.success-msg {
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+}
+
+.ticket-details-summary {
+  width: 100%;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+  border: 1px solid var(--glass-border);
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  text-align: left;
+}
+
+.ticket-field {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.85rem;
+}
+
+.tf-label {
+  color: var(--text-secondary);
+}
+
+.tf-value {
+  font-weight: 600;
+  color: #fff;
+}
+
+.text-accent {
+  color: var(--accent-cyan);
+}
+
+.success-btn {
+  width: 100%;
+  margin-top: 1rem;
+}
