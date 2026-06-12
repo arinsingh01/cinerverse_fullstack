@@ -1,0 +1,24 @@
+server:
+  port: 8081
+
+spring:
+  application:
+    name: auth-service
+  datasource:
+    url: jdbc:postgresql://localhost:5433/cineverse_auth
+    username: arinsingh
+    password: ""
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+
+jwt:
+  # Secret key of at least 256 bits (32 bytes) for HS256 algorithm
+  secret: "9a7565656d7973757065727365637265746b6579666f7263696e657665727365617070"
+  expiration: 86400000 # 24 hours in milliseconds
