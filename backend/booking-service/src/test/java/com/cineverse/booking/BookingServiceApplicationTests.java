@@ -6,11 +6,14 @@ import com.cineverse.booking.repository.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.Arrays;
 import java.util.List;
@@ -28,6 +31,10 @@ class BookingServiceApplicationTests {
 
     @Autowired
     private MockMvc mockMvc;
+
+    @MockitoBean
+    private RestTemplate restTemplate;
+
 
     @Autowired
     private ObjectMapper objectMapper;
@@ -54,7 +61,18 @@ class BookingServiceApplicationTests {
         showRepository.deleteAll();
         screenRepository.deleteAll();
         theatreRepository.deleteAll();
+
+        // Mock stubs for Auth Service user validation
+        Mockito.when(restTemplate.getForObject(Mockito.contains("/auth/users/user-101"), Mockito.eq(Object.class)))
+                .thenReturn(new Object());
+        Mockito.when(restTemplate.getForObject(Mockito.contains("/auth/users/user-102"), Mockito.eq(Object.class)))
+                .thenReturn(new Object());
+        Mockito.when(restTemplate.getForObject(Mockito.contains("/auth/users/user-103"), Mockito.eq(Object.class)))
+                .thenReturn(new Object());
+        Mockito.when(restTemplate.getForObject(Mockito.contains("/auth/users/invalid-user"), Mockito.eq(Object.class)))
+                .thenThrow(new org.springframework.web.client.HttpClientErrorException(org.springframework.http.HttpStatus.NOT_FOUND));
     }
+
 
     @Test
     void testBookingWorkflow() throws Exception {
@@ -175,5 +193,24 @@ class BookingServiceApplicationTests {
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.status", is("error")))
                 .andExpect(jsonPath("$.message", containsString("already booked")));
+    }
+
+    @Test
+    void testBookingFailsForInvalidUser() throws Exception {
+        Theatre theatre = theatreRepository.save(new Theatre("PVR Cinemas", "Delhi"));
+        Screen screen = screenRepository.save(new Screen("Audi 1", 100, theatre.getId()));
+        Show show = showRepository.save(new Show("M1", screen.getId(), "10:00 AM"));
+
+        BookingRequest invalidUserRequest = new BookingRequest();
+        invalidUserRequest.setShowId(show.getId());
+        invalidUserRequest.setUserId("invalid-user");
+        invalidUserRequest.setSeatCodes(Arrays.asList("A1"));
+
+        mockMvc.perform(post("/booking")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(invalidUserRequest)))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.status", is("error")))
+                .andExpect(jsonPath("$.message", containsString("User not found or invalid user ID")));
     }
 }

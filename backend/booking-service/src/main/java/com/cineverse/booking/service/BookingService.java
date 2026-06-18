@@ -3,8 +3,10 @@ package com.cineverse.booking.service;
 import com.cineverse.booking.dto.BookingRequest;
 import com.cineverse.booking.model.*;
 import com.cineverse.booking.repository.*;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.client.RestTemplate;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -21,18 +23,25 @@ public class BookingService {
     private final ShowRepository showRepository;
     private final SeatRepository seatRepository;
     private final BookingRepository bookingRepository;
+    private final RestTemplate restTemplate;
+
+    @Value("${services.auth-service.url}")
+    private String authServiceUrl;
 
     public BookingService(TheatreRepository theatreRepository,
                           ScreenRepository screenRepository,
                           ShowRepository showRepository,
                           SeatRepository seatRepository,
-                          BookingRepository bookingRepository) {
+                          BookingRepository bookingRepository,
+                          RestTemplate restTemplate) {
         this.theatreRepository = theatreRepository;
         this.screenRepository = screenRepository;
         this.showRepository = showRepository;
         this.seatRepository = seatRepository;
         this.bookingRepository = bookingRepository;
+        this.restTemplate = restTemplate;
     }
+
 
     public List<Theatre> getAllTheatres() {
         return theatreRepository.findAll();
@@ -98,8 +107,17 @@ public class BookingService {
 
     @Transactional
     public Booking createBooking(BookingRequest request) {
+        // Validate user existence via Auth Service
+        try {
+            String url = authServiceUrl + "/auth/users/" + request.getUserId();
+            restTemplate.getForObject(url, Object.class);
+        } catch (Exception e) {
+            throw new RuntimeException("Validation collision: User not found or invalid user ID: " + request.getUserId());
+        }
+
         Long showId = request.getShowId();
         List<String> seatCodes = request.getSeatCodes();
+
         
         // Fetch target seats
         List<Seat> targetSeats = seatRepository.findByShowIdAndSeatCodeIn(showId, seatCodes);

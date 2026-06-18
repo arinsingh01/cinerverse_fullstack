@@ -101,4 +101,9 @@ public class AuthService {
     public void logout() {
         SecurityContextHolder.clearContext();
     }
+
+    public User getUserById(Long id) {
+        return userRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("User not found with ID: " + id));
+    }
 }

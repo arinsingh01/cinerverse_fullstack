@@ -60,4 +60,13 @@ public class AuthController {
         response.put("message", "Password reset successfully");
         return ResponseEntity.ok(response);
     }
+
+    @GetMapping("/users/{id}")
+    public ResponseEntity<Map<String, Object>> getUserById(@PathVariable Long id) {
+        User user = authService.getUserById(id);
+        Map<String, Object> response = new HashMap<>();
+        response.put("status", "success");
+        response.put("data", user);
+        return ResponseEntity.ok(response);
+    }
 }

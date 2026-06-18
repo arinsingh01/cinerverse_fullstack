@@ -18,3 +18,8 @@ spring:
       hibernate:
         format_sql: true
         dialect: org.hibernate.dialect.PostgreSQLDialect
+
+services:
+  auth-service:
+    url: ${AUTH_SERVICE_URL:http://localhost:8081}
+
