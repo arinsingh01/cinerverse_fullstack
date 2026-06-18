@@ -6,4 +6,5 @@ spring:
     name: review-service
   data:
     mongodb:
-      uri: mongodb://localhost:27017/cineverse
+      uri: ${SPRING_DATA_MONGODB_URI:mongodb://localhost:27017/cineverse}
+
