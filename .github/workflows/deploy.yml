@@ -1,0 +1,72 @@
+name: CineVerse CI/CD Workflow
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build-backend:
+    name: Build & Package Backend Services
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout Code
+      uses: actions/checkout@v4
+
+    - name: Set up JDK 21
+      uses: actions/setup-java@v4
+      with:
+        java-version: '21'
+        distribution: 'temurin'
+        cache: maven
+
+    - name: Build Gateway
+      run: |
+        cd gateway
+        chmod +x mvnw
+        ./mvnw clean package -DskipTests
+
+    - name: Build Auth Service
+      run: |
+        cd backend/auth-service
+        chmod +x mvnw
+        ./mvnw clean package -DskipTests
+
+    - name: Build Movie Service
+      run: |
+        cd backend/movie-service
+        chmod +x mvnw
+        ./mvnw clean package -DskipTests
+
+    - name: Build Review Service
+      run: |
+        cd backend/review-service
+        chmod +x mvnw
+        ./mvnw clean package -DskipTests
+
+    - name: Build Booking Service
+      run: |
+        cd backend/booking-service
+        chmod +x mvnw
+        ./mvnw clean package -DskipTests
+
+  build-frontend:
+    name: Build Frontend
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout Code
+      uses: actions/checkout@v4
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+        cache: 'npm'
+        cache-dependency-path: frontend/package-lock.json
+
+    - name: Install Dependencies & Build React App
+      run: |
+        cd frontend
+        npm install
+        npm run build --if-present
