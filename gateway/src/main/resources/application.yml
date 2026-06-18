@@ -1,0 +1,29 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: gateway
+  cloud:
+    gateway:
+      routes:
+        - id: auth-service
+          uri: http://localhost:8081
+          predicates:
+            - Path=/auth/**
+        - id: movie-service
+          uri: http://localhost:8082
+          predicates:
+            - Path=/movies/**
+        - id: review-service
+          uri: http://localhost:8083
+          predicates:
+            - Path=/reviews/**
+        - id: booking-service
+          uri: http://localhost:8084
+          predicates:
+            - Path=/booking/**, /theatres/**, /shows/**, /seats/**
+
+jwt:
+  # Shared secret key of at least 256 bits (32 bytes) matching auth-service
+  secret: "9a7565656d7973757065727365637265746b6579666f7263696e657665727365617070"
