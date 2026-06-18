@@ -1,0 +1,12 @@
+server:
+  port: 8082
+
+spring:
+  application:
+    name: movie-service
+  data:
+    mongodb:
+      uri: mongodb://localhost:27017/cineverse
+
+file:
+  upload-dir: /Users/arinsingh/summpercamp/cineverse/backend/movie-service/uploads
