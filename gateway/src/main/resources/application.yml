@@ -22,7 +22,7 @@ spring:
         - id: booking-service
           uri: http://localhost:8084
           predicates:
-            - Path=/booking/**, /theatres/**, /shows/**, /seats/**
+            - Path=/booking/**, /theatres/**, /shows/**, /seats/**, /screens/**
 
 jwt:
   # Shared secret key of at least 256 bits (32 bytes) matching auth-service
